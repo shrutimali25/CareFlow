@@ -9,6 +9,30 @@ if not input_file.exists():
 
 df = pd.read_csv(input_file)
 
+required_columns = [
+    "case:concept:name",
+    "concept:name",
+    "time:timestamp",
+    "elapsed_minutes",
+]
+
+missing_columns = [col for col in required_columns if col not in df.columns]
+
+if missing_columns:
+    raise ValueError(f"Missing required columns: {missing_columns}")
+
+df["time:timestamp"] = pd.to_datetime(
+    df["time:timestamp"], errors="coerce"
+)
+
+df = df.sort_values(
+    ["case:concept:name", "time:timestamp"]
+)
+
+time_order = df.groupby("case:concept:name")["time:timestamp"].apply(
+    lambda x: x.is_monotonic_increasing
+)
+
 report = {
     "Total rows": len(df),
     "Total columns": len(df.columns),
@@ -17,6 +41,9 @@ report = {
     "Missing activities": df["concept:name"].isna().sum(),
     "Missing timestamps": df["time:timestamp"].isna().sum(),
     "Duplicate rows": df.duplicated().sum(),
+    "Missing required columns": len(missing_columns),
+    "Cases in chronological order": int(time_order.sum()),
+    "Cases out of chronological order": int((~time_order).sum()),
     "Negative elapsed times": (df["elapsed_minutes"] < 0).sum(),
 }
 
