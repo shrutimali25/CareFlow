@@ -1,0 +1,10 @@
+Validation_Check,Result,Status
+Total Events,15189,INFO
+Unique Cases,1049,PASS
+Unique Activities,16,PASS
+Missing values in case:concept:name,0,PASS
+Missing values in concept:name,0,PASS
+Missing values in time:timestamp,0,PASS
+Duplicate event combinations,6,CHECK
+Invalid timestamps,0,PASS
+Negative elapsed times,0,PASS

@@ -1,0 +1,10 @@
+Metric,Value
+XES total events,15214
+CSV total events,15189
+XES unique cases,1050
+CSV unique cases,1049
+XES unique activities,16
+CSV unique activities,16
+Different event combinations,25
+Missing event occurrences,25
+Extra event occurrences,0
